@@ -1,0 +1,1 @@
+from scrapers.models.real_estate.re_nz import ReNz
