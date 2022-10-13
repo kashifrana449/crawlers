@@ -22,7 +22,6 @@ requests==2.19.1
 pyvirtualdisplay
 scrapy-fake-useragent==1.1.0
 boto3==1.9.86
-git+git://github.com/waqasjaved160/aws_logging_handlers.git
 python-linkedin-v2==0.9.4
 paramiko==2.4.2
 scrapy-redis==0.6.8
