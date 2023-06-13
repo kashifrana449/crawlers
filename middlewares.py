@@ -6,6 +6,9 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+from scrapy.http import HtmlResponse
+from selenium import webdriver
+from settings import ROOT_DIR
 
 
 class BigdataSpiderMiddleware(object):
@@ -101,3 +104,36 @@ class BigdataDownloaderMiddleware(object):
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+
+class SeleniumMiddleware(object):
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        s = cls()
+        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
+        return s
+
+    def process_request(self, request, spider):
+        self.driver.get(request.url)
+        body = str.encode(self.driver.page_source)
+        response = HtmlResponse(
+            self.driver.current_url,
+            body=body,
+            encoding='utf-8',
+            request=request
+        )
+        return response
+
+    def process_response(self, request, response, spider):
+        return response
+
+    def process_exception(self, request, exception, spider):
+        print('')
+
+    def spider_opened(self, spider):
+        self.driver = webdriver.Chrome(f'{ROOT_DIR}/chromedriver')
+        self.driver.maximize_window()
+
+    def spider_closed(self, spider):
+        self.driver.close()

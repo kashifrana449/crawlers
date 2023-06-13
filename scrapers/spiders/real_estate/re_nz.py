@@ -7,7 +7,7 @@ from scrapers.models.big_data.proxy_free_list import FreeProxyList
 
 
 class ReNzSpider(BaseSpider):
-    name = 'REalEstate NZ'
+    name = 'RealEstate NZ'
     category = CATEGORY['REAL_ESTATE']
     frequency = 7
     use_db_proxy = True

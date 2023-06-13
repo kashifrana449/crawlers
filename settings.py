@@ -1,8 +1,13 @@
 from json import loads
-from os import getcwd
+from os import getcwd, path
 from os.path import expanduser
+from pathlib import Path
 
-with open(expanduser('./config.json')) as config_file:
+ROOT_DIR = str(Path(path.dirname(path.realpath(__file__))))
+
+csv_storage = path.join(ROOT_DIR, 'csv_files')
+
+with open(expanduser('/home/hamed/kashif/crawlers/config.json')) as config_file:
     config = loads(config_file.read())
 
 # -*- coding: utf-8 -*-

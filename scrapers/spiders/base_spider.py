@@ -10,6 +10,8 @@ class BaseSpider(Spider):
     new_settings = {}
     use_db_proxy = False
     use_splash = False
+    use_selenium = False
+    csv_file_name = None
     proxy_list = []
     frequency = 1
     error_threshold = 1000
@@ -50,6 +52,11 @@ class BaseSpider(Spider):
             # cls.new_settings['SPIDER_MIDDLEWARES'] = {
             #     'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
             # }
+        elif hasattr(cls, 'use_selenium') and cls.use_selenium:
+            cls.new_settings['DOWNLOADER_MIDDLEWARES'].update({
+                'middlewares.SeleniumMiddleware': 50
+            })
+
         if hasattr(cls, 'custom_settings') and cls.custom_settings:
             cls.new_settings.update(cls.custom_settings)
         _settings.setdict(cls.new_settings, priority='spider')
